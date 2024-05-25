@@ -4,9 +4,9 @@ import datetime
 
 pygame.init()
 screen = pygame.display.set_mode( [450, 768] )
-num_font = pygame.font.SysFont("Catamaran", 200)
-big_font = pygame.font.SysFont("Catamaran", 250)
-time_font = pygame.font.SysFont("Catamaran", 150)
+num_font = pygame.font.SysFont("microsoftsansserif", 150)
+big_font = pygame.font.SysFont("trebuchetms", 180)
+time_font = pygame.font.SysFont("microsoftsansserif", 100)
 
 f = pygame.image.load("1.png")
 
@@ -20,7 +20,7 @@ Tiles = [1, 2, 3,
          7, 8, 0]
 
 selected_tile = 1
-random.shuffle(Tiles)
+#random.shuffle(Tiles)
 
 startTime = datetime.datetime.now()
 
@@ -34,13 +34,55 @@ def swap( tiles, fromTile, toTile ):
         tiles[fromTile] = tiles[toTile]
         tiles[toTile] = tmp
 
+
+def initialtile():
+    
+
+    for i in range(10):
+        zero = Tiles.index(0) #find index of 0 in 1D array
+        canMoveDirection = []
+
+        if zero != 2 and zero != 5 and zero != 8: #can move right?
+            canMoveDirection.append("right")
+
+        if zero != 0 and zero != 3 and zero != 6:
+            canMoveDirection.append("left") #can move left?
+
+        if zero != 1 and zero != 2 and zero != 3:
+            canMoveDirection.append("up")
+
+        if zero != 6 and zero != 7 and zero != 8:
+            canMoveDirection.append("down")
+
+        direction = random.choice(canMoveDirection)
+        #print(f"going to go {direction}")
+
+        if direction == "right":
+            print(f'{Tiles[zero+1]}')
+            swap(Tiles, zero+1, zero) 
+
+        elif direction == "left":
+            print(f'{Tiles[zero-1]}')
+            swap(Tiles, zero-1, zero)
+
+        elif direction == "up":
+            print(f'{Tiles[zero-3]}')
+            swap(Tiles, zero-3, zero)
+            
+
+        elif direction == "down":
+            print(f'{Tiles[zero+3]}')
+            swap(Tiles, zero+3, zero)
+    
+
+initialtile()
 while True:
     screen.fill([0, 150, 255])
 
     currentTime = datetime.datetime.now()
     second = (currentTime-startTime).seconds
 
-    time = time_font.render(f"{second}", True, [255, 130, 20])
+    time = time_font.render(f"{second}", True, [255, 150, 150])
     screen.blit(time, [150, 660])
     
     for event in pygame.event.get():
